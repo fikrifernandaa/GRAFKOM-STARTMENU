@@ -107,7 +107,7 @@ class DesktopPanel extends JPanel {
         int si = showSub ? getSubIdx(cx, cy) : -1;
 
         // Klik search bar
-        if (inRect(cx, cy, 8, MENU_Y + 8, LEFT_W - 16, 26)) {
+        if (inRect(cx, cy, 8, MENU_Y + 58, LEFT_W - 16, 30)) {
             searchActive = true;
             statusMsg    = "Ketik nama program...";
         }
