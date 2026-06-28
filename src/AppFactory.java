@@ -495,29 +495,149 @@ public class AppFactory {
     }
 
     // ----------------------------------------------------------------
-    //  File Manager
+    //  File Manager (tanpa parameter - default Documents)
     // ----------------------------------------------------------------
     public static JPanel makeFileManager() {
+        return makeFileManager("File Manager");
+    }
+
+    // ----------------------------------------------------------------
+    //  File Manager (dengan nama folder spesifik)
+    // ----------------------------------------------------------------
+    public static JPanel makeFileManager(String folderName) {
         JPanel p = new JPanel(new BorderLayout());
+
+        // Tentukan path dan isi berdasarkan nama folder
+        String path;
+        String[][] files;
+        String itemCount;
+
+        switch (folderName) {
+            case "Documents":
+                path = "C:\\Users\\Fikri\\Documents";
+                files = new String[][]{
+                        {"📁", "Tugas Kuliah",      "Folder",   "-"},
+                        {"📁", "Laporan PKL",       "Folder",   "-"},
+                        {"📄", "Skripsi_Draft.docx","2.4 MB",   "Word Document"},
+                        {"📄", "readme.txt",        "1 KB",     "Text File"},
+                        {"📊", "data_mahasiswa.xlsx","56 KB",   "Excel File"},
+                        {"📄", "proposal_TA.pdf",   "1.2 MB",  "PDF Document"},
+                        {"📄", "catatan_kuliah.txt","18 KB",    "Text File"},
+                        {"📊", "nilai_semester.xlsx","34 KB",   "Excel File"},
+                };
+                itemCount = "8 item  |  Ruang kosong: 48.2 GB";
+                break;
+
+            case "Pictures":
+                path = "C:\\Users\\Fikri\\Pictures";
+                files = new String[][]{
+                        {"📁", "Liburan 2024",      "Folder",   "-"},
+                        {"📁", "Screenshot",        "Folder",   "-"},
+                        {"📁", "Wallpaper",         "Folder",   "-"},
+                        {"🖼️", "foto_wisuda.jpg",   "4.7 MB",  "JPEG Image"},
+                        {"🖼️", "profil_linkedin.png","890 KB", "PNG Image"},
+                        {"🖼️", "kampus_umm.jpg",    "3.1 MB",  "JPEG Image"},
+                        {"🖼️", "selfie_2024.jpg",   "2.8 MB",  "JPEG Image"},
+                        {"🖼️", "logo_hmif.png",     "220 KB",  "PNG Image"},
+                };
+                itemCount = "8 item  |  Ruang kosong: 48.2 GB";
+                break;
+
+            case "Music":
+                path = "C:\\Users\\Fikri\\Music";
+                files = new String[][]{
+                        {"📁", "Playlist Belajar",  "Folder",   "-"},
+                        {"📁", "Favorites",         "Folder",   "-"},
+                        {"🎵", "Bohemian Rhapsody.mp3",  "8.4 MB", "MP3 Audio"},
+                        {"🎵", "Shape of You.mp3",       "6.1 MB", "MP3 Audio"},
+                        {"🎵", "Blinding Lights.mp3",    "7.2 MB", "MP3 Audio"},
+                        {"🎵", "Levitating.mp3",         "5.9 MB", "MP3 Audio"},
+                        {"🎵", "Stay - Kid LAROI.mp3",   "4.8 MB", "MP3 Audio"},
+                        {"🎵", "As It Was.mp3",          "6.7 MB", "MP3 Audio"},
+                };
+                itemCount = "8 item  |  Ruang kosong: 48.2 GB";
+                break;
+
+            case "Downloads":
+                path = "C:\\Users\\Fikri\\Downloads";
+                files = new String[][]{
+                        {"📦", "JDK-21_installer.exe",   "159 MB",  "Application"},
+                        {"📦", "IntelliJ_IDEA.exe",      "687 MB",  "Application"},
+                        {"📦", "VirtualBox-7.0.exe",     "105 MB",  "Application"},
+                        {"📄", "Modul_PraktikumOS.pdf",  "3.4 MB",  "PDF Document"},
+                        {"📄", "Soal_UAS_2024.pdf",      "1.1 MB",  "PDF Document"},
+                        {"📊", "Template_Laporan.xlsx",  "48 KB",   "Excel File"},
+                        {"🖼️", "wallpaper_pack.zip",     "24.6 MB", "ZIP Archive"},
+                        {"📦", "OracleDB_11g.zip",       "1.8 GB",  "ZIP Archive"},
+                };
+                itemCount = "8 item  |  Ruang kosong: 48.2 GB";
+                break;
+
+            case "Computer":
+                path = "Computer";
+                files = new String[][]{
+                        {"💾", "Local Disk (C:)",   "238 GB / 476 GB",  "Local Disk"},
+                        {"💾", "Data (D:)",         "182 GB / 476 GB",  "Local Disk"},
+                        {"📀", "DVD Drive (E:)",    "Kosong",           "Optical Drive"},
+                        {"🔌", "USB Drive (F:)",    "12 GB / 32 GB",    "Removable Disk"},
+                };
+                itemCount = "4 perangkat  |  2 drive lokal, 1 optik, 1 removable";
+                break;
+
+            case "Control Panel":
+                path = "Control Panel";
+                files = new String[][]{
+                        {"⚙️", "System",            "-",    "Pengaturan Sistem"},
+                        {"🔊", "Sound",             "-",    "Pengaturan Suara"},
+                        {"🖥️", "Display",           "-",    "Pengaturan Layar"},
+                        {"🌐", "Network",           "-",    "Pengaturan Jaringan"},
+                        {"🔒", "Security Center",  "-",    "Keamanan Windows"},
+                        {"🖨️", "Printers",         "-",    "Perangkat Cetak"},
+                        {"🔋", "Power Options",    "-",    "Pengaturan Daya"},
+                        {"📅", "Date and Time",    "-",    "Waktu & Tanggal"},
+                };
+                itemCount = "8 item";
+                break;
+
+            case "Settings":
+                path = "Settings";
+                files = new String[][]{
+                        {"🎨", "Personalization",  "-",    "Tema & Tampilan"},
+                        {"👤", "Accounts",         "-",    "Akun Pengguna"},
+                        {"🔒", "Privacy",          "-",    "Privasi"},
+                        {"🌐", "Network & Internet","-",   "Koneksi Internet"},
+                        {"📱", "Bluetooth",        "-",    "Perangkat Bluetooth"},
+                        {"🔔", "Notifications",   "-",    "Notifikasi"},
+                        {"♿", "Accessibility",   "-",    "Aksesibilitas"},
+                        {"🔄", "Windows Update",  "-",    "Pembaruan Sistem"},
+                };
+                itemCount = "8 item";
+                break;
+
+            default: // File Manager default / folder tidak dikenal
+                path = "C:\\Users\\Fikri";
+                files = new String[][]{
+                        {"📁", "Documents",        "Folder",   "-"},
+                        {"📁", "Pictures",         "Folder",   "-"},
+                        {"📁", "Music",            "Folder",   "-"},
+                        {"📁", "Downloads",        "Folder",   "-"},
+                        {"📄", "readme.txt",       "1 KB",     "Text File"},
+                        {"📊", "data.xlsx",        "24 KB",    "Excel File"},
+                        {"🖼️", "photo.jpg",        "3.2 MB",   "JPEG Image"},
+                        {"📽️", "video.mp4",        "128 MB",   "Video File"},
+                };
+                itemCount = "8 item  |  Ruang kosong: 48.2 GB";
+                break;
+        }
 
         JPanel nav = new JPanel(new BorderLayout(4, 0));
         nav.setBackground(new Color(240, 242, 248));
         nav.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
-        JTextField addr = new JTextField("C:\\Users\\Fikri\\Documents");
+        JTextField addr = new JTextField(path);
         addr.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         nav.add(new JLabel("  📁 "), BorderLayout.WEST);
         nav.add(addr, BorderLayout.CENTER);
 
-        String[][] files = {
-                {"📁", "Documents", "Folder", "-"},
-                {"📁", "Pictures",  "Folder", "-"},
-                {"📁", "Downloads", "Folder", "-"},
-                {"📄", "readme.txt","1 KB",   "Text File"},
-                {"📊", "data.xlsx", "24 KB",  "Excel File"},
-                {"🖼️", "photo.jpg", "3.2 MB", "JPEG Image"},
-                {"📽️", "video.mp4", "128 MB", "Video File"},
-                {"📦", "setup.exe", "45 MB",  "Application"},
-        };
         String[] cols = {"", "Nama", "Ukuran", "Tipe"};
         Object[][] rows = new Object[files.length][4];
         for (int i = 0; i < files.length; i++) rows[i] = files[i];
@@ -533,7 +653,7 @@ public class AppFactory {
 
         JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
         statusBar.setBackground(new Color(240, 242, 248));
-        statusBar.add(new JLabel("8 item  |  Ruang kosong: 48.2 GB"));
+        statusBar.add(new JLabel(itemCount));
 
         p.add(nav, BorderLayout.NORTH);
         p.add(new JScrollPane(table), BorderLayout.CENTER);

@@ -62,7 +62,7 @@ public class DialogHelper {
                 "📁 " + folderName, false);
         dlg.setSize(460, 340);
         dlg.setLocationRelativeTo(parent);
-        dlg.setContentPane(AppFactory.makeFileManager());
+        dlg.setContentPane(AppFactory.makeFileManager(folderName));
         dlg.setVisible(true);
 
         return "Membuka: " + folderName;
