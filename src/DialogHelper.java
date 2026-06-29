@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
 
 /**
  * Helper untuk membuka dialog/window tambahan:
@@ -111,22 +113,121 @@ public class DialogHelper {
      * Membuka dialog pilihan Power/Shutdown.
      * Mengembalikan pesan status hasil pilihan pengguna.
      */
+
     public static String openShutdownDialog(Component parent) {
+
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(parent);
+
         String[] options = {"Shutdown", "Restart", "Sleep", "Batal"};
+
         int choice = JOptionPane.showOptionDialog(
-                parent,
+                frame,
                 "Pilih tindakan daya:",
                 "Power Options",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
-                null, options, options[0]
+                null,
+                options,
+                options[0]
         );
 
         switch (choice) {
-            case 0: return "Sedang mematikan komputer... (simulasi)";
-            case 1: return "Sedang me-restart... (simulasi)";
-            case 2: return "Komputer dalam mode Sleep (simulasi)";
-            default: return "";
+
+            // ================= SHUTDOWN =================
+            case 0:
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "Shutting down..."
+                );
+                System.exit(0);
+                return "";
+
+            // ================= RESTART =================
+            case 1:
+
+                try {
+
+                    File currentJar = new File(
+                            StartMenu.class
+                                    .getProtectionDomain()
+                                    .getCodeSource()
+                                    .getLocation()
+                                    .toURI());
+
+                    // Jika dijalankan dari file JAR
+                    if (currentJar.getName().endsWith(".jar")) {
+
+                        new ProcessBuilder(
+                                "java",
+                                "-jar",
+                                currentJar.getPath()
+                        ).start();
+
+                        System.exit(0);
+                    }
+
+                    // Jika dijalankan dari IDE
+                    frame.dispose();
+
+                    SwingUtilities.invokeLater(() -> {
+                        StartMenu app = new StartMenu();
+                        app.setVisible(true);
+                    });
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                return "Restarting...";
+
+            // ================= SLEEP =================
+            case 2:
+
+                frame.setVisible(false);
+
+                JDialog sleep = new JDialog(frame);
+                sleep.setUndecorated(true);
+                sleep.setModal(true);
+                sleep.setSize(frame.getSize());
+                sleep.getContentPane().setBackground(Color.BLACK);
+
+                JLabel label = new JLabel(
+                        "<html><center><font color='white'>SLEEP MODE"
+                                + "<br><br>Klik di mana saja untuk bangun...</font></center></html>",
+                        SwingConstants.CENTER);
+
+                label.setFont(new Font("Segoe UI", Font.BOLD, 32));
+
+                sleep.setLayout(new BorderLayout());
+                sleep.add(label, BorderLayout.CENTER);
+
+                sleep.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        sleep.dispose();
+                        frame.setVisible(true);
+                        frame.toFront();
+                        frame.requestFocus();
+                    }
+                });
+
+                sleep.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        sleep.dispose();
+                        frame.setVisible(true);
+                        frame.toFront();
+                        frame.requestFocus();
+                    }
+                });
+
+                sleep.setLocationRelativeTo(null);
+                sleep.setVisible(true);
+
+                return "Sleep Mode";
+
+            default:
+                return "";
         }
     }
-}
+    }
